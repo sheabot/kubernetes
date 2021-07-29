@@ -66,6 +66,7 @@ func (f *rawFactory) NewContainerHandler(name string, inHostNamespace bool) (con
 
 // The raw factory can handle any container. If --docker_only is set to true, non-docker containers are ignored except for "/" and those whitelisted by raw_cgroup_prefix_whitelist flag.
 func (f *rawFactory) CanHandleAndAccept(name string) (bool, bool, error) {
+	klog.V(1).Infof("shea: raw: CanHandleAndAccept: %s", name)
 	if name == "/" {
 		return true, true, nil
 	}
@@ -99,6 +100,9 @@ func Register(machineInfoFactory info.MachineInfoFactory, fsInfo fs.FsInfo, incl
 	}
 
 	klog.V(1).Infof("Registering Raw factory")
+	for _, prefix := range rawPrefixWhiteList {
+		klog.V(1).Infof("Raw factory prefix: %s", prefix)
+	}
 	factory := &rawFactory{
 		machineInfoFactory: machineInfoFactory,
 		fsInfo:             fsInfo,

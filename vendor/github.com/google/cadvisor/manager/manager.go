@@ -35,7 +35,7 @@ import (
 	"github.com/google/cadvisor/events"
 	"github.com/google/cadvisor/fs"
 	info "github.com/google/cadvisor/info/v1"
-	"github.com/google/cadvisor/info/v2"
+	v2 "github.com/google/cadvisor/info/v2"
 	"github.com/google/cadvisor/machine"
 	"github.com/google/cadvisor/nvm"
 	"github.com/google/cadvisor/perf"
@@ -946,7 +946,7 @@ func (m *manager) createContainerLocked(containerName string, watchSource watche
 		}
 		perfCgroupPath, err := handler.GetCgroupPath("perf_event")
 		if err != nil {
-			klog.Warningf("Error getting perf_event cgroup path: %q", err)
+			klog.V(4).Infof("Error getting perf_event cgroup path: %q", err)
 		} else {
 			cont.perfCollector, err = m.perfManager.GetCollector(perfCgroupPath)
 			if err != nil {
