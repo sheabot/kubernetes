@@ -111,8 +111,9 @@ func isContainerName(name string) bool {
 func (f *crioFactory) CanHandleAndAccept(name string) (bool, bool, error) {
 	if strings.HasPrefix(path.Base(name), "crio-conmon") {
 		// TODO(runcom): should we include crio-conmon cgroups?
-		klog.V(1).Infof("shea: crio: Ignoring crio-conmon: %s", name)
-		return false, false, nil
+		klog.V(1).Infof("shea: crio: CanHandleAndAccept crio-conmon: %s", name)
+		//return false, false, nil
+		return true, true, nil
 	}
 	if !strings.HasPrefix(path.Base(name), CrioNamespace) {
 		return false, false, nil
