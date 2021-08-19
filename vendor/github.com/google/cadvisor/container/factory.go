@@ -144,7 +144,9 @@ func RegisterPlugin(name string, plugin Plugin) error {
 func InitializeFSContext(context *fs.Context) error {
 	pluginsLock.Lock()
 	defer pluginsLock.Unlock()
+	klog.V(1).Infof("RPS: factory: InitializeFSContext")
 	for name, plugin := range plugins {
+		klog.V(1).Infof("RPS: factory: InitializeFSContext: %s", name)
 		err := plugin.InitializeFSContext(context)
 		if err != nil {
 			klog.V(5).Infof("Initialization of the %s context failed: %v", name, err)
