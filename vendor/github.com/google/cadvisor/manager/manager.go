@@ -35,7 +35,7 @@ import (
 	"github.com/google/cadvisor/events"
 	"github.com/google/cadvisor/fs"
 	info "github.com/google/cadvisor/info/v1"
-	"github.com/google/cadvisor/info/v2"
+	v2 "github.com/google/cadvisor/info/v2"
 	"github.com/google/cadvisor/machine"
 	"github.com/google/cadvisor/nvm"
 	"github.com/google/cadvisor/perf"
@@ -168,11 +168,13 @@ func New(memoryCache *memory.InMemoryCache, sysfs sysfs.SysFs, houskeepingConfig
 	context := fs.Context{}
 
 	if err := container.InitializeFSContext(&context); err != nil {
+		klog.V(1).Infof("RPS: container.InitializeFSContext: %v", err)
 		return nil, err
 	}
 
 	fsInfo, err := fs.NewFsInfo(context)
 	if err != nil {
+		klog.V(1).Infof("RPS: fs.NewFsInfo: %v", err)
 		return nil, err
 	}
 
@@ -207,6 +209,7 @@ func New(memoryCache *memory.InMemoryCache, sysfs sysfs.SysFs, houskeepingConfig
 
 	machineInfo, err := machine.Info(sysfs, fsInfo, inHostNamespace)
 	if err != nil {
+		klog.V(1).Infof("RPS: machine.Info: %v", err)
 		return nil, err
 	}
 	newManager.machineInfo = *machineInfo
