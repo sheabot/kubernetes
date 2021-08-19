@@ -58,6 +58,7 @@ func retryDockerStatus() info.DockerStatus {
 		ctx, _ := context.WithTimeout(context.Background(), startupTimeout)
 		dockerStatus, err := StatusWithContext(ctx)
 		if err == nil {
+			klog.V(1).Infof("RPS: docker: retryDockerStatus: %v", err)
 			return dockerStatus
 		}
 

@@ -167,11 +167,13 @@ func New(memoryCache *memory.InMemoryCache, sysfs sysfs.SysFs, houskeepingConfig
 
 	context := fs.Context{}
 
+	klog.V(1).Infof("RPS: Calling container.InitializeFSContext")
 	if err := container.InitializeFSContext(&context); err != nil {
 		klog.V(1).Infof("RPS: container.InitializeFSContext: %v", err)
 		return nil, err
 	}
 
+	klog.V(1).Infof("RPS: Calling fs.NewFsInfo")
 	fsInfo, err := fs.NewFsInfo(context)
 	if err != nil {
 		klog.V(1).Infof("RPS: fs.NewFsInfo: %v", err)
@@ -207,6 +209,7 @@ func New(memoryCache *memory.InMemoryCache, sysfs sysfs.SysFs, houskeepingConfig
 		rawContainerCgroupPathPrefixWhiteList: rawContainerCgroupPathPrefixWhiteList,
 	}
 
+	klog.V(1).Infof("RPS: Calling machine.Info")
 	machineInfo, err := machine.Info(sysfs, fsInfo, inHostNamespace)
 	if err != nil {
 		klog.V(1).Infof("RPS: machine.Info: %v", err)
